@@ -234,7 +234,6 @@
       width: 100%;
       height: 96px;
       margin-top: 16px;
-      margin-bottom: 8px;
     }
     .sim-block {
       margin-top: 24px;
@@ -446,23 +445,6 @@
 
   <div class="toast" id="toast">링크가 복사됐어요!</div>
 
-  <script type="module">
-    import { attachBanner } from '@apps-in-toss/web-framework';
-    // 테스트 ID (출시 전 실제 ID: ait.v2.live.5e6efd731b12486c 로 교체)
-    var AD_GROUP_ID = 'ait-ad-test-banner-id';
-    if (attachBanner.isSupported()) {
-      attachBanner({
-        adGroupId: AD_GROUP_ID,
-        target: document.getElementById('bannerWrap'),
-        options: {
-          theme: 'auto',
-          tone: 'grey',
-          variant: 'expanded',
-        },
-      });
-    }
-  </script>
-
   <script>
     (function() {
       var hallRental = document.getElementById('hallRental');
@@ -656,6 +638,35 @@
         document.body.removeChild(ta);
       }
     })();
+  </script>
+  <script>
+    // 배너 광고 초기화
+    // 테스트 ID: ait-ad-test-banner-id
+    // 실제 ID: ait.v2.live.5e6efd731b12486c (출시 시 교체)
+    var AD_GROUP_ID = 'ait-ad-test-banner-id';
+
+    if (window.TossAds && window.TossAds.initialize.isSupported()) {
+      window.TossAds.initialize({
+        callbacks: {
+          onInitialized: function() {
+            if (window.TossAds.attachBanner.isSupported()) {
+              window.TossAds.attachBanner(
+                AD_GROUP_ID,
+                document.getElementById('bannerWrap'),
+                {
+                  theme: 'auto',
+                  tone: 'grey',
+                  variant: 'expanded',
+                }
+              );
+            }
+          },
+          onInitializationFailed: function(error) {
+            console.error('배너 광고 초기화 실패:', error);
+          },
+        },
+      });
+    }
   </script>
 </body>
 </html>
