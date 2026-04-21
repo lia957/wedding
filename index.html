@@ -639,24 +639,28 @@
       }
     })();
   </script>
-  <script>
-    // 배너 광고 초기화
-    // 테스트 ID: ait.v2.live.5e6efd731b12486c
-    // 실제 ID: ait.v2.live.5e6efd731b12486c (출시 시 교체)
+  <script type="module">
+    import { TossAds } from '@apps-in-toss/web-framework';
+
     var AD_GROUP_ID = 'ait.v2.live.5e6efd731b12486c';
 
-    if (window.TossAds && window.TossAds.initialize.isSupported()) {
-      window.TossAds.initialize({
+    if (TossAds.initialize.isSupported()) {
+      TossAds.initialize({
         callbacks: {
           onInitialized: function() {
-            if (window.TossAds.attachBanner.isSupported()) {
-              window.TossAds.attachBanner(
+            if (TossAds.attachBanner.isSupported()) {
+              TossAds.attachBanner(
                 AD_GROUP_ID,
                 document.getElementById('bannerWrap'),
                 {
                   theme: 'auto',
                   tone: 'grey',
                   variant: 'expanded',
+                  callbacks: {
+                    onAdRendered: function() { console.log('광고 렌더링 완료'); },
+                    onNoFill: function() { console.log('광고 없음'); },
+                    onAdFailedToRender: function(e) { console.error('광고 실패:', e); },
+                  }
                 }
               );
             }
